@@ -1,0 +1,41 @@
+:root {
+  /* ---- Colors (locked, from handoff Design Tokens) ---- */
+  --space-0: #05060d; /* deepest background / vignette outer */
+  --space-1: #070912; /* mid background / panel base */
+  --space-2: #0b1020; /* background highlight (radial center) */
+
+  --accent: #5bd6c8; /* LOCKED accent */
+  --accent-amber: #e8b04b; /* comparison only */
+  --accent-violet: #b59cff; /* comparison only */
+  --accent-on: #05060d; /* text/icon on accent fills */
+
+  --text-primary: #f4efe6;
+  --text-body: #c9d2e0;
+  --text-muted: #9aa2b4;
+  --text-faint: #6b7283;
+
+  /* ---- Surfaces & lines ---- */
+  --panel-fill: linear-gradient(180deg, rgba(18, 22, 38, 0.82), rgba(10, 13, 26, 0.88));
+  --panel-blur: blur(14px);
+  --panel-border: 1px solid rgba(255, 255, 255, 0.08);
+  --panel-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+
+  --pill-fill: rgba(255, 255, 255, 0.06);
+  --pill-border: 1px solid rgba(255, 255, 255, 0.1);
+  --hairline: 1px solid rgba(255, 255, 255, 0.07);
+
+  --cta-shadow: 0 8px 30px rgba(91, 214, 200, 0.28);
+
+  /* ---- Typography ---- */
+  --font-display: 'Space Grotesk', system-ui, sans-serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  /* ---- Radius ---- */
+  --radius-pill: 8px;
+  --radius-panel: 16px;
+
+  /* ---- Motion ---- */
+  --ease-calm: cubic-bezier(0.22, 1, 0.36, 1);
+  --panel-in: 360ms;
+}
