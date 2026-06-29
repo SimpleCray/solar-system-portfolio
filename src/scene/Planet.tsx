@@ -6,15 +6,12 @@ import type { Body } from '../content/bodies';
 import { RING_TEXTURE, MOON_TEXTURE } from '../content/bodies';
 import { useStore } from '../state/store';
 
-const rgb = (t: [number, number, number]) => `rgb(${t[0]},${t[1]},${t[2]})`;
-
 /** Number of moons per planet that has them (drives 3D moon markers). */
 const MOON_COUNT: Record<string, number> = { jupiter: 4, saturn: 5 };
 
-export default function Planet({ body, active }: { body: Body; active: boolean }) {
+export default function Planet({ body }: { body: Body; active?: boolean }) {
   const group = useRef<THREE.Group>(null);
   const mesh = useRef<THREE.Mesh>(null);
-  const halo = useRef<THREE.Mesh>(null);
 
   const map = useTexture(body.texture!);
   useMemo(() => {
@@ -22,17 +19,10 @@ export default function Planet({ body, active }: { body: Body; active: boolean }
     map.anisotropy = 8;
   }, [map]);
 
-  const color = useMemo(() => new THREE.Color(rgb(body.tint)), [body.tint]);
   const moonCount = MOON_COUNT[body.id] ?? 0;
 
   useFrame((_, dt) => {
     if (mesh.current) mesh.current.rotation.y += dt * 0.04;
-    if (halo.current) {
-      const target = active ? 1 : 0;
-      const m = halo.current.material as THREE.MeshBasicMaterial;
-      m.opacity += (target * 0.28 - m.opacity) * Math.min(1, dt * 3);
-      halo.current.visible = m.opacity > 0.005;
-    }
   });
 
   return (
@@ -40,18 +30,6 @@ export default function Planet({ body, active }: { body: Body; active: boolean }
       <mesh ref={mesh} castShadow receiveShadow rotation={[0, 0, 0.05]}>
         <sphereGeometry args={[body.radius, 64, 64]} />
         <meshStandardMaterial map={map} roughness={0.92} metalness={0.0} />
-      </mesh>
-
-      {/* tinted atmospheric focus halo — only the active planet */}
-      <mesh ref={halo} visible={false}>
-        <sphereGeometry args={[body.radius * 1.35, 32, 32]} />
-        <meshBasicMaterial
-          color={color}
-          transparent
-          opacity={0}
-          side={THREE.BackSide}
-          depthWrite={false}
-        />
       </mesh>
 
       {body.ring && <SaturnRing radius={body.radius} />}

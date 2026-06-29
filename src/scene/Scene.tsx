@@ -1,9 +1,8 @@
 import { Suspense } from 'react';
 import { Canvas } from '@react-three/fiber';
-import { EffectComposer, Bloom, Vignette } from '@react-three/postprocessing';
+import { EffectComposer, Vignette } from '@react-three/postprocessing';
 import * as THREE from 'three';
 import { BODIES } from '../content/bodies';
-import { useStore } from '../state/store';
 import Background from './Background';
 import StarField from './StarField';
 import Sun from './Sun';
@@ -12,8 +11,6 @@ import AsteroidBelt from './AsteroidBelt';
 import CameraRig from './CameraRig';
 
 export default function Scene() {
-  const currentStop = useStore((s) => s.currentStop);
-
   return (
     <Canvas
       shadows
@@ -32,20 +29,13 @@ export default function Scene() {
         {BODIES.map((b) => {
           if (b.id === 'sun') return <Sun key={b.id} body={b} />;
           if (b.belt) return <AsteroidBelt key={b.id} distance={b.distance} />;
-          const active = b.stop !== null && b.stop === currentStop;
-          return <Planet key={b.id} body={b} active={active} />;
+          return <Planet key={b.id} body={b} />;
         })}
       </Suspense>
 
       <CameraRig />
 
       <EffectComposer>
-        <Bloom
-          intensity={0.9}
-          luminanceThreshold={0.55}
-          luminanceSmoothing={0.3}
-          mipmapBlur
-        />
         <Vignette eskil={false} offset={0.25} darkness={0.85} />
       </EffectComposer>
     </Canvas>
